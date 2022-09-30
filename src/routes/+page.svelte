@@ -8,7 +8,7 @@
 
 	async function loadShared(user) {
 		const dbSharedDecks = await supabaseClient.from('invites');
-		console.log(dbSharedDecks.data);
+		console.log(dbSharedDecks);
 		return dbSharedDecks;
 	}
 	async function signInWithGoogle() {
