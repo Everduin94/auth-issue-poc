@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { supabaseClient } from '$lib/db';
 	import { page } from '$app/stores';
+	import { dev } from '$app/environment';
 
 	$: if ($page.data.session.user) {
 		loadItems($page.data.session.user);
@@ -18,9 +19,15 @@
 		return items;
 	}
 	async function signInWithGoogle() {
-		const { user, session, error } = await supabaseClient.auth.signIn({
-			provider: 'google'
-		});
+		console.log(dev);
+		const { user, session, error } = await supabaseClient.auth.signIn(
+			{
+				provider: 'google'
+			},
+			{
+				redirectTo: dev ? 'http://localhost:5173' : 'https://auth-issue-poc.vercel.app'
+			}
+		);
 	}
 	async function signout() {
 		await supabaseClient.auth.signOut();
