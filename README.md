@@ -1,5 +1,6 @@
 # Instructions
 - clone
+- I've already added my .env / .env.production file (it has an anon key / url and test table setup)
 - `npm install`
 - `npm run dev`
 - Login via Google provider
