@@ -1,38 +1,17 @@
-# create-svelte
+# Instructions
+- clone
+- `npm install`
+- `npm run dev`
+- Login via Google provider
+- Refresh the page
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+# Behavior
+- Results will not show on page refresh
+  - supabaseClient will call with anon token instead of user token
+- Results will show on login redirect or on HMR refresh
 
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+# Notes
+- Log the results, you'll see in the vite console the results are there (available on server). But are not available in the browser
+- I noticed `startSupabaseSessionSync` sets auth inside `onMount`. I believe this is why even if you move the `loadItems` call to `onMount` or check for `browser` it still doesn't work because it still gets called slightly before auth is available on the supabaseClient. Hence why the setTimeout works.
+- If you add some sort of second subscription to the `if` statement it works because it fires twice, once when supabaseClient is not ready (when user emits) and once immediately after when it is
+- Maybe there should be some sort of callback/value/emission that lets you know when auth is ready instead of checking for `$page.data.session.user` which doesn't necessarily let you know if auth is available on the `supabaseClient`

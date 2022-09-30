@@ -6,8 +6,6 @@
 	import { invalidateAll } from '$app/navigation';
 	import { page } from '$app/stores';
 
-	// this sets up automatic token refreshing
-
 	startSupabaseSessionSync({
 		page,
 		handleRefresh: () => invalidateAll()
